@@ -1,7 +1,15 @@
 package ba.bootcamp.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<T, ID> {
+import ba.bootcamp.model.User;
 
+public interface UserRepository extends JpaRepository<User, Long> {
+	
+	Optional<User> findByUsername(String username);
+	Boolean existsByUsername(String username);
+	Boolean existsByEmail(String email);
 }
+
