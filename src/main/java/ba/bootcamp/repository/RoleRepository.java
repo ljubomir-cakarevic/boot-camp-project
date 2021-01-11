@@ -4,8 +4,8 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import ba.bootcamp.model.ERole;
-import ba.bootcamp.model.Role;
+import ba.bootcamp.entity.ERole;
+import ba.bootcamp.entity.Role;
 
 public interface RoleRepository extends JpaRepository<Role, Long> {
 	

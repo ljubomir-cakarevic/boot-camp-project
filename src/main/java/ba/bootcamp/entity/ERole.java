@@ -1,4 +1,4 @@
-package ba.bootcamp.model;
+package ba.bootcamp.entity;
 
 public enum ERole {
 	ROLE_USER,

@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ba.bootcamp.entity.Employee;
 import ba.bootcamp.exception.ResourceNotFoundException;
-import ba.bootcamp.model.Employee;
 import ba.bootcamp.repository.EmployeeRepository;
 
 @CrossOrigin(origins = "http://localhost:4200")

@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import ba.bootcamp.model.User;
+import ba.bootcamp.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 	

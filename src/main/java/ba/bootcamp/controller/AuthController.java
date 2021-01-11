@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ba.bootcamp.model.ERole;
-import ba.bootcamp.model.Role;
-import ba.bootcamp.model.User;
+import ba.bootcamp.entity.ERole;
+import ba.bootcamp.entity.Role;
+import ba.bootcamp.entity.User;
 import ba.bootcamp.repository.RoleRepository;
 import ba.bootcamp.repository.UserRepository;
 import ba.bootcamp.request.LoginRequest;
