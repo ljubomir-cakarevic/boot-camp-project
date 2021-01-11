@@ -1,4 +1,4 @@
-package ba.bootcamp.model;
+package ba.bootcamp.entity;
 
 import java.util.HashSet;
 import java.util.Set;

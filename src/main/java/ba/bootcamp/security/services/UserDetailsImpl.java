@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import ba.bootcamp.model.User;
+import ba.bootcamp.entity.User;
 import javassist.SerialVersionUID;
 
 public class UserDetailsImpl implements UserDetails {
