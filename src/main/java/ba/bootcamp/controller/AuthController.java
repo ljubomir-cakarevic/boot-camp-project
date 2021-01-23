@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -37,6 +38,8 @@ import ba.bootcamp.security.services.UserDetailsImpl;
 @RequestMapping("/api/auth")
 public class AuthController {
 	
+	private final static Logger LOGGER = Logger.getLogger(AuthController.class.getName());
+	
 	@Autowired
 	AuthenticationManager authenticationManager;
 
@@ -54,6 +57,8 @@ public class AuthController {
 	
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+		
+		LOGGER.info("------------------AuthController.authenticateUser()");
 
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -75,6 +80,9 @@ public class AuthController {
 	
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+		
+		LOGGER.info("------------------AuthController.registerUser()");
+		
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
 			return ResponseEntity
 					.badRequest()
@@ -92,13 +100,7 @@ public class AuthController {
 							 signUpRequest.getEmail(),
 							 encoder.encode(signUpRequest.getPassword()));
 
-//		if (signUpRequest.getRole() == null) {
-//			user.setRole(ERole.ROLE_USER);
-//		} else {			
-//			user.setRole(ERole.valueOf(signUpRequest.getRole()));
-//		}
-//		userRepository.save(user);
-		
+
 		Set<String> strRoles = signUpRequest.getRole();
 		Set<Role> roles = new HashSet<>();
 
