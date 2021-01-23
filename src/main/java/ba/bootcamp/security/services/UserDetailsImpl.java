@@ -1,6 +1,5 @@
 package ba.bootcamp.security.services;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -13,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ba.bootcamp.entity.User;
-import javassist.SerialVersionUID;
 
 public class UserDetailsImpl implements UserDetails {
 
