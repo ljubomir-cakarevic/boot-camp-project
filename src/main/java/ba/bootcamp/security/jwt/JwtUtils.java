@@ -1,6 +1,8 @@
 package ba.bootcamp.security.jwt;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,13 +11,19 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import ba.bootcamp.security.services.UserDetailsImpl;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 
 @Component
 public class JwtUtils {
 	
 	private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
-
+	
+	// used for token encryption
 	@Value("${bootcamp.app.jwtSecret}")
 	private String jwtSecret;
 
@@ -33,7 +41,7 @@ public class JwtUtils {
 				.signWith(SignatureAlgorithm.HS512, jwtSecret)
 				.compact();
 	}
-
+	
 	public String getUserNameFromJwtToken(String token) {
 		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
 	}

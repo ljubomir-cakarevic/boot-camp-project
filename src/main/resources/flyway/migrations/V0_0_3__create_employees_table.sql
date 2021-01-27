@@ -1,7 +1,8 @@
 CREATE TABLE `employees` (
-  `empId` bigint(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) DEFAULT NULL,
-  `designation` varchar(20) DEFAULT NULL,
-  `salary` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(255) DEFAULT NULL,
+  `last_name` varchar(255) DEFAULT NULL,
+  `email_id` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK6dotkott2kjsp8vw4d0m25fb7` (`email_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1

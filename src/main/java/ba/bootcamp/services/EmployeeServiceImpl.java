@@ -2,10 +2,14 @@ package ba.bootcamp.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import ba.bootcamp.entity.Employee;
@@ -52,8 +56,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public EmployeeDto getEmployeeById(Long id) {
 
-		Employee employeeEntity = employeeRepo.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id :" + id));
+		Employee employeeEntity = employeeRepo.findById(id).get();
+		
 		EmployeeDto employeDto = new EmployeeDto();
 		BeanUtils.copyProperties(employeeEntity, employeDto);
 
@@ -68,7 +72,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 		employeeEntity.setFirstName(employee.getFirstName());
 		employeeEntity.setLastName(employee.getLastName());
+		employeeEntity.setAge(employee.getAge());
 		employeeEntity.setEmailId(employee.getEmailId());
+		employeeEntity.setPosition(employee.getPosition());
 
 		Employee updateEmployee = employeeRepo.save(employeeEntity);
 		BeanUtils.copyProperties(updateEmployee, employee);

@@ -1,5 +1,6 @@
 package ba.bootcamp.security.services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import ba.bootcamp.entity.Role;
 import ba.bootcamp.entity.User;
 
 public class UserDetailsImpl implements UserDetails {
@@ -22,21 +24,30 @@ public class UserDetailsImpl implements UserDetails {
 	@JsonIgnore
 	private String password;
 	private Collection<? extends GrantedAuthority> authorities;
+	
+	// Simple way
+	private List<String> roles;
 
 	public UserDetailsImpl(Long id, String username, String email, String password,
-			Collection<? extends GrantedAuthority> authorities) {
+			Collection<? extends GrantedAuthority> authorities, List<String> userRoles) {
 		this.id = id;
 		this.username = username;
 		this.email = email;
 		this.password = password;
 		this.authorities = authorities;
+		this.roles = userRoles;
 	}
 
 	public static UserDetailsImpl build(User user) {
 		List<GrantedAuthority> authorities = user.getRoles().stream()
 				.map(role -> new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
 
-		return new UserDetailsImpl(user.getId(), user.getUsername(), user.getEmail(), user.getPassword(), authorities);
+		List<String> userRoles = new ArrayList<String>();
+		for (Role role : user.getRoles()) {
+			userRoles.add(role.getName().name());
+		}
+		
+		return new UserDetailsImpl(user.getId(), user.getUsername(), user.getEmail(), user.getPassword(), authorities, userRoles);
 	}
 
 	@Override
@@ -62,6 +73,10 @@ public class UserDetailsImpl implements UserDetails {
 	public String getUsername() {
 		// TODO Auto-generated method stub
 		return username;
+	}
+
+	public List<String> getRoles() {
+		return roles;
 	}
 
 	@Override

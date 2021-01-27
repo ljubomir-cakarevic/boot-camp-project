@@ -17,6 +17,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
 	UserRepository userRepository;
 
+	/**
+	 * This method is called by Spring Security during Authentication object creation.
+	 */
 	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
