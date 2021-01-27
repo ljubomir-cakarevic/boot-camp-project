@@ -1,0 +1,1 @@
+ALTER TABLE `employees` ADD `age` int AFTER `last_name`;

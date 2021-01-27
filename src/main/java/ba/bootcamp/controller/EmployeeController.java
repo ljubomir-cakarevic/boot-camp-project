@@ -25,7 +25,7 @@ import ba.bootcamp.shared.dto.EmployeeDto;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/api/data")
 public class EmployeeController {
 
 	private final static Logger LOGGER = Logger.getLogger(EmployeeController.class.getName());

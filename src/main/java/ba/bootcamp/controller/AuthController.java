@@ -59,43 +59,65 @@ public class AuthController {
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 		
 		LOGGER.info("------------------AuthController.authenticateUser()");
-
+		
+		// authenticate { username, pasword }
+		// This call will invoke UserDetailsServiceImpl.loadUserByUsername(username) to build UserDetailsImpl object 
+		// which contains all User Details.
+		// Here we use Spring Security framework to check loginRequest parameters, 
+		// compare them with loaded user from database
+		// and if they match, it will return Authentication object.
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-
+		
+		
+		
+		// On authenticationManager.authenticate() method call we are using Spring Security framework to get Authentication.
+		// Framework requires UserDetailsService implementation (UserDetailsServiceImpl) to load user by username and return UserDetails
+		// implementation which contains all necessary user parameters.
+		// UserDetailsImpl object is stored in Authentication.getPrincipal()
+		// Now when it is loaded we can use all data to build JwsResponse object which contains all data we need to use
+		// JWT in frontend part.
+		
+		
+		
+		// update SecurityContext using Authentication object
 		SecurityContextHolder.getContext().setAuthentication(authentication);
+		
+		// generate JWT
 		String jwt = jwtUtils.generateJwtToken(authentication);
 		
+		// get UserDetails from Authentication object
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
 		List<String> roles = userDetails.getAuthorities().stream()
 				.map(item -> item.getAuthority())
 				.collect(Collectors.toList());
-
+		
+		// response contains JWT and UserDetails data
 		return ResponseEntity.ok(new JwtResponse(jwt, 
 												 userDetails.getId(), 
 												 userDetails.getUsername(), 
 												 userDetails.getEmail(), 
-												 roles));
+												 roles)); //userDetails.getRoles()));
 	}
 	
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 		
 		LOGGER.info("------------------AuthController.registerUser()");
-		
+		// check existing username
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
 			return ResponseEntity
 					.badRequest()
 					.body(new MessageResponse("Error: Username is already taken!"));
 		}
-
+		// check existing email
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
 			return ResponseEntity
 					.badRequest()
 					.body(new MessageResponse("Error: Email is already in use!"));
 		}
 
-		// Create new user's account
+		// Create new user's account (with ROLE_USER if not specifying role)
 		User user = new User(signUpRequest.getUsername(), 
 							 signUpRequest.getEmail(),
 							 encoder.encode(signUpRequest.getPassword()));
@@ -132,6 +154,7 @@ public class AuthController {
 		}
 
 		user.setRoles(roles);
+		// save user to database using UserRepository
 		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
