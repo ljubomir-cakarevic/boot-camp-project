@@ -18,10 +18,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ba.bootcamp.dto.EmployeeDto;
+import ba.bootcamp.repository.EmployeeRepository;
 import ba.bootcamp.request.EmployeeRequest;
 import ba.bootcamp.response.EmployeeResponse;
 import ba.bootcamp.services.EmployeeService;
-import ba.bootcamp.shared.dto.EmployeeDto;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -69,6 +70,19 @@ public class EmployeeController {
 		return ResponseEntity.ok(employeeResponse);
 	}
 
+	// get employee by email rest api
+	@GetMapping("/employees/trigger/{emailId}")
+	public ResponseEntity<EmployeeResponse> findEmployeeByEmail(@PathVariable String emailId) {
+
+		LOGGER.info("---------------EmployeeController.findEmployeeByEmail()");
+
+		EmployeeDto employeeDto = employeeService.getEmployeeByEmail(emailId);
+		EmployeeResponse employeeResponse = new EmployeeResponse();
+		BeanUtils.copyProperties(employeeDto, employeeResponse);
+
+		return ResponseEntity.ok(employeeResponse);
+	}
+
 	// get employee by id rest api
 	@GetMapping("/employees/{id}")
 	public ResponseEntity<EmployeeResponse> getEmployeeById(@PathVariable Long id) {
@@ -86,16 +100,17 @@ public class EmployeeController {
 	// update employee rest api
 
 	@PutMapping("/employees/{id}")
-	public ResponseEntity<EmployeeResponse> updateEmployee(@PathVariable Long id, @RequestBody EmployeeRequest employeeDetails) {
-		
+	public ResponseEntity<EmployeeResponse> updateEmployee(@PathVariable Long id,
+			@RequestBody EmployeeRequest employeeDetails) {
+
 		LOGGER.info("---------------EmployeeController.updateEmployee()");
-		
+
 		EmployeeResponse updatedEmployee = new EmployeeResponse();
 		EmployeeDto employeeDto = new EmployeeDto();
 		BeanUtils.copyProperties(employeeDetails, employeeDto);
 		EmployeeDto createdEmployee = employeeService.updateEmployee(id, employeeDto);
 		BeanUtils.copyProperties(createdEmployee, updatedEmployee);
-		
+
 		return ResponseEntity.ok(updatedEmployee);
 	}
 

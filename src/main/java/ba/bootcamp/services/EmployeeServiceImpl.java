@@ -2,20 +2,17 @@ package ba.bootcamp.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import ba.bootcamp.dto.EmployeeDto;
 import ba.bootcamp.entity.Employee;
 import ba.bootcamp.exception.ResourceNotFoundException;
 import ba.bootcamp.repository.EmployeeRepository;
-import ba.bootcamp.shared.dto.EmployeeDto;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -27,6 +24,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private ModelMapper modelMapper;
 
 	@Override
+	@Transactional
 	public EmployeeDto createEmployee(EmployeeDto employee) {
 
 		// ModelMapper modelMapper = new ModelMapper();
@@ -52,6 +50,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 		return employeeDtoList;
 	}
+	
+	
 
 	@Override
 	public EmployeeDto getEmployeeById(Long id) {
@@ -65,6 +65,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
+	@Transactional
 	public EmployeeDto updateEmployee(Long id, EmployeeDto employee) {
 
 		Employee employeeEntity = employeeRepo.findById(id)
@@ -83,6 +84,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
+	@Transactional
 	public void deleteEmployee(Long id) {
 
 		Employee employeeEntity = employeeRepo.findById(id)
@@ -90,6 +92,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 		employeeRepo.delete(employeeEntity);
 
+	}
+
+	@Override
+	public EmployeeDto getEmployeeByEmail(String emailId) {
+		Employee employeeEntity = employeeRepo.findByEmailId(emailId);
+		
+		EmployeeDto employeDto = new EmployeeDto();
+		BeanUtils.copyProperties(employeeEntity, employeDto);
+		
+		return employeDto;
 	}
 
 }
