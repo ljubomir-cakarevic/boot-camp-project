@@ -9,7 +9,7 @@ public class EmployeeResponse implements Serializable {
 	private long id;
 	private String firstName;
 	private String lastName;
-	private Integer  age;
+	private Integer age;
 	private String emailId;
 	private String position;
 

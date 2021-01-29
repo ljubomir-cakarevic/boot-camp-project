@@ -17,60 +17,55 @@ import ba.bootcamp.response.MessageResponse;
 
 public class AuthControllerTest {
 
-	// Kontoler koji se testira
+	// Tested controller
 	@InjectMocks
 	private AuthController authController;
 
-	// Proprema Mock objekta
+	// Preparation of Mock object
 	@Mock
 	UserRepository userRepository;
 
-	// Proprema Mock objekta
+	// Preparation of Mock object
 	@Mock
 	RoleRepository roleRepository;
 
 	private SignupRequest signUpRequest;
 
-	// Priprema podataka prije izvrsavanja testova
-	@SuppressWarnings("deprecation")
+	// Preparation of test data
 	@Before
 	public void init() {
-
 		MockitoAnnotations.initMocks(this);
 
 		signUpRequest = new SignupRequest();
 		signUpRequest.setUsername("testuser");
 		signUpRequest.setPassword("testuser");
 		signUpRequest.setEmail("testuser@test.com");
-
 	}
 
 	@Test
 	public void registerUserExistingUsernameTest() {
-		// da bi se stvorio uslov za ulazak u prvi if statement
+		// to create condition for entering in first if statement
 		when(userRepository.existsByUsername(signUpRequest.getUsername())).thenReturn(true);
 		
-		// Ovo se testira
+		// Testing registerUser method
 		ResponseEntity<?> response = authController.registerUser(signUpRequest);
 
-		// Ovo provjerava ispravnost testa
+		// Test validity check
 		assertEquals(((MessageResponse) response.getBody()).getMessage(), "Error: Username is already taken!");
-
 	}
 	
 	@Test
 	public void registerUserExistingEmailTest() {
-		// Da bi se stvorio uslov da preskocimo prvi if statement
+		// to create condition for skip first if statement
 		when(userRepository.existsByUsername(signUpRequest.getUsername())).thenReturn(false);
 		
-		// Da bi se stvorio uslov za ulazak u drugi if statement
+		// to create condition for entering in second if statement
 		when(userRepository.existsByEmail(signUpRequest.getEmail())).thenReturn(true);
 		
-		
-		// Ovo se testira
+		// Testing registerUser method
 		ResponseEntity<?> response = authController.registerUser(signUpRequest);
 		
-		// Ovo je provjera ispravnosti testa
+		// Test validity check
 		assertEquals(((MessageResponse) response.getBody()).getMessage(), "Error: Email is already in use!");
 	}
 

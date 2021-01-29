@@ -1,4 +1,4 @@
-package ba.bootcamp.shared.dto;
+package ba.bootcamp.dto;
 
 import java.io.Serializable;
 
@@ -9,7 +9,7 @@ public class EmployeeDto implements Serializable {
 	private long id;
 	private String firstName;
 	private String lastName;
-	private Integer  age;
+	private Integer age;
 	private String emailId;
 	private String position;
 

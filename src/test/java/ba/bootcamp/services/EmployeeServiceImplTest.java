@@ -12,9 +12,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import ba.bootcamp.dto.EmployeeDto;
 import ba.bootcamp.entity.Employee;
 import ba.bootcamp.repository.EmployeeRepository;
-import ba.bootcamp.shared.dto.EmployeeDto;
 
 class EmployeeServiceImplTest {
 
@@ -31,7 +31,6 @@ class EmployeeServiceImplTest {
 
 	@Test
 	void testGetEmployeeById() {
-		// fail("Not yet implemented");
 		Employee employeeEntity = new Employee();
 		employeeEntity.setId(1L);
 		employeeEntity.setFirstName("Milos");

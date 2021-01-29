@@ -56,7 +56,7 @@ public class AuthController {
 	JwtUtils jwtUtils;
 	
 	@PostMapping("/signin")
-	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+	public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 		
 		LOGGER.info("------------------AuthController.authenticateUser()");
 		
@@ -101,7 +101,7 @@ public class AuthController {
 	}
 	
 	@PostMapping("/signup")
-	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+	public ResponseEntity<MessageResponse> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 		
 		LOGGER.info("------------------AuthController.registerUser()");
 		// check existing username
