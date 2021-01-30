@@ -74,7 +74,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		employeeEntity.setFirstName(employee.getFirstName());
 		employeeEntity.setLastName(employee.getLastName());
 		employeeEntity.setAge(employee.getAge());
-		employeeEntity.setEmailId(employee.getEmailId());
+		employeeEntity.setEmail(employee.getEmail());
 		employeeEntity.setPosition(employee.getPosition());
 
 		Employee updateEmployee = employeeRepo.save(employeeEntity);
@@ -95,8 +95,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public EmployeeDto getEmployeeByEmail(String emailId) {
-		Employee employeeEntity = employeeRepo.findByEmailId(emailId);
+	public EmployeeDto getEmployeeByEmail(String email) {
+		Employee employeeEntity = employeeRepo.findByEmail(email);
 		
 		EmployeeDto employeDto = new EmployeeDto();
 		BeanUtils.copyProperties(employeeEntity, employeDto);

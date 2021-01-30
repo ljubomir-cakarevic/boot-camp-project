@@ -9,7 +9,7 @@ public class EmployeeRequest implements Serializable {
 	private String firstName;
 	private String lastName;
 	private Integer age;
-	private String emailId;
+	private String email;
 	private String position;
 
 	public String getFirstName() {
@@ -36,12 +36,12 @@ public class EmployeeRequest implements Serializable {
 		this.age = age;
 	}
 
-	public String getEmailId() {
-		return emailId;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPosition() {

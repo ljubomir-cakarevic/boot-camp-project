@@ -29,7 +29,7 @@ public class Employee implements Serializable {
 	private Integer age;
 
 	@Column(name = "email_id")
-	private String emailId;
+	private String email;
 
 	@Column(name = "position")
 	private String position;
@@ -38,12 +38,12 @@ public class Employee implements Serializable {
 
 	}
 
-	public Employee(String firstName, String lastName, int age, String emailId, String position) {
+	public Employee(String firstName, String lastName, int age, String email, String position) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.age = age;
-		this.emailId = emailId;
+		this.email = email;
 		this.position = position;
 	}
 
@@ -79,12 +79,12 @@ public class Employee implements Serializable {
 		this.age = age;
 	}
 
-	public String getEmailId() {
-		return emailId;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPosition() {

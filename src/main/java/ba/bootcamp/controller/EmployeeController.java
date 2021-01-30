@@ -71,12 +71,12 @@ public class EmployeeController {
 	}
 
 	// get employee by email rest api
-	@GetMapping("/employees/trigger/{emailId}")
-	public ResponseEntity<EmployeeResponse> findEmployeeByEmail(@PathVariable String emailId) {
+	@GetMapping("/employees/trigger/{email}")
+	public ResponseEntity<EmployeeResponse> findEmployeeByEmail(@PathVariable String email) {
 
 		LOGGER.info("---------------EmployeeController.findEmployeeByEmail()");
 
-		EmployeeDto employeeDto = employeeService.getEmployeeByEmail(emailId);
+		EmployeeDto employeeDto = employeeService.getEmployeeByEmail(email);
 		EmployeeResponse employeeResponse = new EmployeeResponse();
 		BeanUtils.copyProperties(employeeDto, employeeResponse);
 
