@@ -8,21 +8,12 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import ba.bootcamp.repository.RoleRepository;
 import ba.bootcamp.repository.UserRepository;
-import ba.bootcamp.request.LoginRequest;
 import ba.bootcamp.request.SignupRequest;
-import ba.bootcamp.response.JwtResponse;
 import ba.bootcamp.response.MessageResponse;
-import ba.bootcamp.security.services.UserDetailsImpl;
-import ba.bootcamp.security.services.UserDetailsServiceImpl;
 
 public class AuthControllerTest {
 
@@ -30,9 +21,6 @@ public class AuthControllerTest {
 	@InjectMocks
 	private AuthController authController;
 	
-	@InjectMocks
-	AuthenticationManager authenticationManager;
-
 	// Preparation of Mock object
 	@Mock
 	UserRepository userRepository;
@@ -43,8 +31,6 @@ public class AuthControllerTest {
 
 	private SignupRequest signUpRequest;
 	
-	private LoginRequest loginRequest;
-
 	// Preparation of test data
 	@Before
 	public void init() {
@@ -82,7 +68,5 @@ public class AuthControllerTest {
 		// Test validity check
 		assertEquals(((MessageResponse) response.getBody()).getMessage(), "Error: Email is already in use!");
 	}
-	
-	
 
 }
