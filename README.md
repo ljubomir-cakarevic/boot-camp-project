@@ -1,7 +1,7 @@
 # Backend
 Maven/Spring Boot project for backend application. It implements REST API for data managing (CRUD).
-Open JDK 1.8
-Maven 3.3.9
+-Open JDK 1.8
+-Maven 3.3.9
 
 ## Database creation
 We are using MySQL 5.7 database server for data storage.
@@ -34,3 +34,9 @@ Run `ng serve` in root folder of Angular project.
 Angular application will be available on address http://localhost:4200
 
 Create new user on Sign Up page http://localhost:4200/signup
+
+## Application Manual
+
+Application enables registration and login of user with three different roles (admin, moderator and user).
+We can register user on sign up page. In this case user will get default role "ROLE_USER".
+User with admin and moderator role can be created through Postman.

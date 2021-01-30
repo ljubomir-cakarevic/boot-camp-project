@@ -104,7 +104,7 @@ public class AuthController {
 	public ResponseEntity<MessageResponse> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 		
 		LOGGER.info("------------------AuthController.registerUser()");
-		// check existing username
+		// check existing userName
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
 			return ResponseEntity
 					.badRequest()

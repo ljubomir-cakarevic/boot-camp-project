@@ -11,7 +11,7 @@ import java.lang.String;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 	
-	Employee findByEmailId(String emailid);
+	Employee findByEmail(String email);
 	
 	
 

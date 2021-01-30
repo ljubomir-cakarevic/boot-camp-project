@@ -35,7 +35,7 @@ class EmployeeServiceImplTest {
 		employeeEntity.setId(1L);
 		employeeEntity.setFirstName("Milos");
 		employeeEntity.setLastName("Ilic");
-		employeeEntity.setEmailId("test@test.com");
+		employeeEntity.setEmail("test@test.com");
 
 		when(employeeRepo.findById(1L)).thenReturn(Optional.of(employeeEntity));
 
