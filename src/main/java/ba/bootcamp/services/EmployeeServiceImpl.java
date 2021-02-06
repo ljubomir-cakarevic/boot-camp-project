@@ -1,9 +1,8 @@
 package ba.bootcamp.services;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,19 +19,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired
 	EmployeeRepository employeeRepo;
 
-	@Autowired
-	private ModelMapper modelMapper;
-
 	@Override
 	@Transactional
 	public EmployeeDto createEmployee(EmployeeDto employee) {
-
-		// ModelMapper modelMapper = new ModelMapper();
-		Employee employeeEntity = modelMapper.map(employee, Employee.class);
+		
+		Employee employeeEntity = new Employee();
+		BeanUtils.copyProperties(employee, employeeEntity);
+		
 		Employee storedEmployee = employeeRepo.save(employeeEntity);
-		EmployeeDto returnValue = modelMapper.map(storedEmployee, EmployeeDto.class);
-
-		return returnValue;
+		
+		EmployeeDto employeeDto = new EmployeeDto();
+		BeanUtils.copyProperties(storedEmployee, employeeDto);
+		
+		return employeeDto;
 	}
 
 	@Override
@@ -40,19 +39,24 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 		List<Employee> employeeList = employeeRepo.findAll();
 
-		List<EmployeeDto> employeeDtoList = new ArrayList<EmployeeDto>();
-
-		for (Employee employee : employeeList) {
-			EmployeeDto employeeDto = new EmployeeDto();
-			BeanUtils.copyProperties(employee, employeeDto);
-			employeeDtoList.add(employeeDto);
-		}
+		List<EmployeeDto> employeeDtoList = employeeList.stream()
+				.map(e -> {
+					EmployeeDto employeeDto = new EmployeeDto();
+					BeanUtils.copyProperties(e, employeeDto);
+					
+					return employeeDto;
+				})
+				.collect(Collectors.toList());
+		
+		//		for (Employee employee : employeeList) {
+//			EmployeeDto employeeDto = new EmployeeDto();
+//			BeanUtils.copyProperties(employee, employeeDto);
+//			employeeDtoList.add(employeeDto);
+//		}
 
 		return employeeDtoList;
 	}
 	
-	
-
 	@Override
 	public EmployeeDto getEmployeeById(Long id) {
 
@@ -96,6 +100,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public EmployeeDto getEmployeeByEmail(String email) {
+		
 		Employee employeeEntity = employeeRepo.findByEmail(email);
 		
 		EmployeeDto employeDto = new EmployeeDto();

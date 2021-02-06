@@ -1,7 +1,11 @@
 package ba.bootcamp.services;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -12,18 +16,23 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import ba.bootcamp.dto.EmployeeDto;
 import ba.bootcamp.entity.Employee;
+import ba.bootcamp.exception.ResourceNotFoundException;
 import ba.bootcamp.repository.EmployeeRepository;
 
 class EmployeeServiceImplTest {
 
-	@InjectMocks
+	@InjectMocks // @InjectMocks also creates the mock implementation, additionally injects the dependent mocks that are marked with the annotations @Mock into it
 	EmployeeServiceImpl employeeService;
 
-	@Mock
+	@Mock // The @Mock annotation creates a mock implementation for the class it is annotated with
 	EmployeeRepository employeeRepo;
 
 	@BeforeEach
@@ -33,6 +42,7 @@ class EmployeeServiceImplTest {
 
 	@Test
 	void testGetEmployeeById() {
+		
 		Employee employeeEntity = new Employee();
 		employeeEntity.setId(1L);
 		employeeEntity.setFirstName("Milos");
@@ -67,15 +77,40 @@ class EmployeeServiceImplTest {
 	@Test
 	void testGetEmployeeByEmail() {
 		
-		Employee employee = new Employee("Marko", "Panic", 36, "test@test.com", "Manager");
 		String email = "test@test.com";
+		String position = "Manager";
+		Employee employee = new Employee("Marko", "Panic", 36, email, position);
 		
 		when(employeeRepo.findByEmail(email)).thenReturn(employee);
 		
 		EmployeeDto employeeDto = employeeService.getEmployeeByEmail(email);
 		
-		assertEquals(employee.getPosition(), employeeDto.getPosition());
+		assertNotNull(employeeDto);
+		assertEquals(position, employeeDto.getPosition());
 		
 	}
+	
+	@Test
+	void testCreateEmployee() {
+		
+		Employee employeeEntity = new Employee();
+		employeeEntity.setId(1L);
+		employeeEntity.setFirstName("Milos");
+		employeeEntity.setLastName("Ilic");
+		employeeEntity.setAge(30);
+		employeeEntity.setEmail("test@test.com");
+		employeeEntity.setPosition("Developer");
+		
+		when(employeeRepo.save(Mockito.any(Employee.class))).thenReturn(employeeEntity);
+		
+		EmployeeDto employeeDto = new EmployeeDto();
+		BeanUtils.copyProperties(employeeEntity, employeeDto);
+		
+		EmployeeDto storedEmployeeDto = employeeService.createEmployee(employeeDto);
+		
+		assertEquals(employeeEntity.getFirstName(), storedEmployeeDto.getFirstName());
+	}
+	
+	
 
 }
