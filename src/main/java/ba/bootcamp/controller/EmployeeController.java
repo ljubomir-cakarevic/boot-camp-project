@@ -34,10 +34,8 @@ public class EmployeeController {
 	@Autowired
 	EmployeeService employeeService;
 
-	@Autowired
-	private ModelMapper modelMapper;
-
-	// get all employees
+	// get all employees REST API
+	
 	@GetMapping("/employees")
 	public ResponseEntity<List<EmployeeResponse>> getAllEmployees() {
 
@@ -56,21 +54,26 @@ public class EmployeeController {
 
 	}
 
-	// create employee rest api
+	// create employee REST API
 
 	@PostMapping("/employees")
 	public ResponseEntity<EmployeeResponse> createEmployee(@RequestBody EmployeeRequest employeeRequest) {
 
 		LOGGER.info("---------------EmployeeController.createEmployee()");
+		
+		EmployeeDto employeeDto = new EmployeeDto();
+		BeanUtils.copyProperties(employeeRequest, employeeDto);
 
-		EmployeeDto employeeDto = modelMapper.map(employeeRequest, EmployeeDto.class);
 		EmployeeDto storedEmployeeDto = employeeService.createEmployee(employeeDto);
-		EmployeeResponse employeeResponse = modelMapper.map(storedEmployeeDto, EmployeeResponse.class);
+		
+		EmployeeResponse employeeResponse = new EmployeeResponse();
+		BeanUtils.copyProperties(storedEmployeeDto, employeeResponse);
 
 		return ResponseEntity.ok(employeeResponse);
 	}
 
-	// get employee by email rest api
+	// get employee by email REST API
+	
 	@GetMapping("/employees/trigger/{email}")
 	public ResponseEntity<EmployeeResponse> findEmployeeByEmail(@PathVariable String email) {
 
@@ -83,7 +86,8 @@ public class EmployeeController {
 		return ResponseEntity.ok(employeeResponse);
 	}
 
-	// get employee by id rest api
+	// get employee by id REST API
+	
 	@GetMapping("/employees/{id}")
 	public ResponseEntity<EmployeeResponse> getEmployeeById(@PathVariable Long id) {
 
@@ -97,7 +101,7 @@ public class EmployeeController {
 
 	}
 
-	// update employee rest api
+	// update employee REST API
 
 	@PutMapping("/employees/{id}")
 	public ResponseEntity<EmployeeResponse> updateEmployee(@PathVariable Long id,
@@ -114,7 +118,8 @@ public class EmployeeController {
 		return ResponseEntity.ok(updatedEmployee);
 	}
 
-	// delete employee rest api
+	// delete employee REST API
+	
 	@DeleteMapping("/employees/{id}")
 	public void deleteEmployee(@PathVariable Long id) {
 

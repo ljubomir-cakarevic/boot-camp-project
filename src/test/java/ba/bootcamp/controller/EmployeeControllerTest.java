@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import ba.bootcamp.dto.EmployeeDto;
+import ba.bootcamp.request.EmployeeRequest;
 import ba.bootcamp.response.EmployeeResponse;
 import ba.bootcamp.services.EmployeeServiceImpl;
 
@@ -47,13 +48,11 @@ class EmployeeControllerTest {
 		
 		Mockito.when(employeeService.getEmployeeById(1L)).thenReturn(employeeDto);
 		
-//		EmployeeResponse employeeRes = new EmployeeResponse();
-//		BeanUtils.copyProperties(employeeDto, employeeRes);
-		
 		ResponseEntity<EmployeeResponse> employeeResponse = employeeController.getEmployeeById(employeeDto.getId());
 		
 		assertNotNull(employeeResponse);
 		assertEquals(employeeResponse.getStatusCode(), HttpStatus.OK);
+		assertEquals(employeeResponse.getBody().getFirstName(), "Bojan");
 
 	}
 
@@ -63,9 +62,11 @@ class EmployeeControllerTest {
 		EmployeeDto employee1 = new EmployeeDto();
 		employee1.setFirstName("Milan");
 		employee1.setLastName("Popovic");
+		
 		EmployeeDto employee2 = new EmployeeDto();
 		employee2.setFirstName("Goran");
 		employee2.setLastName("Starcevic");
+		
         List<EmployeeDto> employees = new ArrayList<EmployeeDto>();
         employees.add(employee1);
         employees.add(employee2);
@@ -77,6 +78,30 @@ class EmployeeControllerTest {
 		assertNotNull(result);
 		assertEquals(result.getStatusCode(), HttpStatus.OK);
 		assertEquals(result.getBody().size(), 2);
+	}
+	
+	@Test
+	void testCreateEmployee() {
+		
+		EmployeeRequest employeeReq = new EmployeeRequest();
+
+		employeeReq.setFirstName("Bojan");
+		employeeReq.setLastName("Starcevic");
+		employeeReq.setAge(33);
+		employeeReq.setEmail("test@test.com");
+		employeeReq.setPosition("Developer");
+		
+		EmployeeDto employeeDto = new EmployeeDto();
+		BeanUtils.copyProperties(employeeReq, employeeDto);
+		
+		
+		Mockito.when(employeeService.createEmployee(Mockito.any(EmployeeDto.class))).thenReturn(employeeDto);
+		
+		ResponseEntity<EmployeeResponse> response = employeeController.createEmployee(employeeReq);
+		
+		assertNotNull(response);
+		assertEquals(response.getStatusCode(), HttpStatus.OK);
+		assertEquals(response.getBody().getLastName(), "Starcevic");
 	}
 	
 	
