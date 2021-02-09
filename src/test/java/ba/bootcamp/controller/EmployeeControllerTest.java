@@ -1,7 +1,6 @@
 package ba.bootcamp.controller;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
@@ -102,8 +101,27 @@ class EmployeeControllerTest {
 		assertNotNull(response);
 		assertEquals(response.getStatusCode(), HttpStatus.OK);
 		assertEquals(response.getBody().getLastName(), "Starcevic");
+		assertEquals(response.getBody().getEmail(), "test@test.com");
 	}
 	
-	
+	@Test
+	void testFindEmployeeByEmail() {
+		
+		EmployeeDto employeeDto = new EmployeeDto();
+		employeeDto.setId(1L);
+		employeeDto.setFirstName("Bojan");
+		employeeDto.setLastName("Starcevic");
+		employeeDto.setAge(33);
+		employeeDto.setEmail("test@test.com");
+		employeeDto.setPosition("Developer");
+		
+		Mockito.when(employeeService.getEmployeeByEmail("test@test.com")).thenReturn(employeeDto);
+		
+		ResponseEntity<EmployeeResponse> employeeResponse = employeeController.findEmployeeByEmail("test@test.com");
+		
+		assertNotNull(employeeResponse);
+		assertEquals(employeeResponse.getStatusCode(), HttpStatus.OK);
+		assertEquals(employeeResponse.getBody().getAge(), 33);
+	}
 
 }

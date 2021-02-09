@@ -17,8 +17,7 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
 
 	private static final Logger logger = LoggerFactory.getLogger(AuthEntryPointJwt.class);
 	
-	//This is invoked when user tries to access a secured REST resource without 
-	//supplying any credentials	
+	//This is invoked when user tries to access a secured REST resource without supplying any credentials	
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {

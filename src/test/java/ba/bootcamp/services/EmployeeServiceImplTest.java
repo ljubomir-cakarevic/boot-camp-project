@@ -1,11 +1,7 @@
 package ba.bootcamp.services;
 
-import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -18,13 +14,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import ba.bootcamp.dto.EmployeeDto;
 import ba.bootcamp.entity.Employee;
-import ba.bootcamp.exception.ResourceNotFoundException;
 import ba.bootcamp.repository.EmployeeRepository;
 
 class EmployeeServiceImplTest {
