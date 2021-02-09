@@ -47,12 +47,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 					return employeeDto;
 				})
 				.collect(Collectors.toList());
-		
-		//		for (Employee employee : employeeList) {
-//			EmployeeDto employeeDto = new EmployeeDto();
-//			BeanUtils.copyProperties(employee, employeeDto);
-//			employeeDtoList.add(employeeDto);
-//		}
 
 		return employeeDtoList;
 	}

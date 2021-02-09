@@ -1,10 +1,9 @@
 package ba.bootcamp.controller;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.jboss.logging.Logger;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ba.bootcamp.dto.EmployeeDto;
-import ba.bootcamp.repository.EmployeeRepository;
 import ba.bootcamp.request.EmployeeRequest;
 import ba.bootcamp.response.EmployeeResponse;
 import ba.bootcamp.services.EmployeeService;
@@ -42,13 +40,15 @@ public class EmployeeController {
 		LOGGER.info("---------------EmployeeController.getAllEmployees()");
 
 		List<EmployeeDto> employeeDtoList = employeeService.getAllEmployees();
-		List<EmployeeResponse> employeeResponseList = new ArrayList<EmployeeResponse>();
-
-		for (EmployeeDto employeeDto : employeeDtoList) {
-			EmployeeResponse employeeResponse = new EmployeeResponse();
-			BeanUtils.copyProperties(employeeDto, employeeResponse);
-			employeeResponseList.add(employeeResponse);
-		}
+		
+		List<EmployeeResponse> employeeResponseList = employeeDtoList.stream()
+				.map(e -> {
+					EmployeeResponse employeeResponse = new EmployeeResponse();
+					BeanUtils.copyProperties(e, employeeResponse);
+					
+					return employeeResponse;
+				})
+				.collect(Collectors.toList());
 
 		return ResponseEntity.ok(employeeResponseList);
 
