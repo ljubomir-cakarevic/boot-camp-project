@@ -96,6 +96,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public EmployeeDto getEmployeeByEmail(String email) {
+		
 		Employee employeeEntity = employeeRepo.findByEmail(email);
 		
 		EmployeeDto employeDto = new EmployeeDto();

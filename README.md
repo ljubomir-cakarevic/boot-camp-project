@@ -42,7 +42,7 @@ Create new user on Sign Up page http://localhost:4200/signup
 
 Application enables registration and login of user with three different roles (admin, moderator and user).
 We can register user on sign up page. In this case user will get default role `ROLE_USER`.
-User with admin and moderator role can be created through Postman. In this case roles have next formats
+User with admin and moderator role can be created through Postman. In this case roles have next formats:
 - admin
 - moderator
 - user

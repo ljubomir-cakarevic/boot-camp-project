@@ -69,16 +69,12 @@ public class AuthController {
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 		
-		
-		
 		// On authenticationManager.authenticate() method call we are using Spring Security framework to get Authentication.
 		// Framework requires UserDetailsService implementation (UserDetailsServiceImpl) to load user by username and return UserDetails
 		// implementation which contains all necessary user parameters.
 		// UserDetailsImpl object is stored in Authentication.getPrincipal()
 		// Now when it is loaded we can use all data to build JwsResponse object which contains all data we need to use
 		// JWT in frontend part.
-		
-		
 		
 		// update SecurityContext using Authentication object
 		SecurityContextHolder.getContext().setAuthentication(authentication);
