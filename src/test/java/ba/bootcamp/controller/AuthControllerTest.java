@@ -16,7 +16,7 @@ import ba.bootcamp.request.SignupRequest;
 import ba.bootcamp.response.MessageResponse;
 
 public class AuthControllerTest {
-	//Test
+	//Test1
 	// Tested controller
 	@InjectMocks
 	private AuthController authController;
